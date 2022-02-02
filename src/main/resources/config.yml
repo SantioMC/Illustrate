@@ -1,0 +1,3 @@
+mongo:
+  uri: mongodb://localhost/mydb
+  database: mydb

@@ -133,5 +133,10 @@
             <artifactId>SantioUtils</artifactId>
             <version>957b9ef58c</version>
         </dependency>
+        <dependency>
+            <groupId>org.litote.kmongo</groupId>
+            <artifactId>kmongo</artifactId>
+            <version>4.4.0</version>
+        </dependency>
     </dependencies>
 </project>

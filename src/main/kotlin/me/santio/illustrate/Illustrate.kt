@@ -1,5 +1,7 @@
 package me.santio.illustrate
 
+import com.mongodb.client.MongoClient
+import com.mongodb.client.MongoDatabase
 import me.santio.illustrate.palettes.Palette
 import me.santio.illustrate.palettes.impl.ConcretePalette
 import me.santio.illustrate.palettes.impl.OrePalette
@@ -12,12 +14,15 @@ import me.santio.illustrate.tools.impl.BrushTool
 import me.santio.illustrate.tools.impl.PickBlockTool
 import me.santio.utils.SantioUtils
 import org.bukkit.plugin.java.JavaPlugin
+import org.litote.kmongo.KMongo
 import java.util.*
 
 class Illustrate : JavaPlugin() {
 
     companion object {
         lateinit var utils: SantioUtils
+        lateinit var mongo: MongoClient
+        lateinit var database: MongoDatabase
 
         val contexts: MutableMap<UUID, PlayerContext> = mutableMapOf()
         val palettes: MutableList<Palette> = mutableListOf()
@@ -28,6 +33,14 @@ class Illustrate : JavaPlugin() {
 
     override fun onEnable() {
         utils = SantioUtils(this)
+
+        // Configuration
+        saveDefaultConfig()
+
+        // Connect to MongoDB
+        System.setProperty("org.litote.mongo.test.mapping.service", "org.litote.kmongo.jackson.JacksonClassMappingTypeService")
+        mongo = KMongo.createClient(config.getString("mongo.uri", "mongodb://localhost/mydb")!!)
+        database = mongo.getDatabase(config.getString("mongo.database", "mydb")!!)
 
         // Register Palettes and Tools (Please teach me a way to automate this w/ reflection)
         registerPalettes(ConcretePalette, OrePalette)
