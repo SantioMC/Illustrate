@@ -36,7 +36,7 @@ object ToolListener: Listener {
         val tool = Illustrate.tools[Illustrate.utils.NBTUtils.get(meta, "tool")] ?: return
 
         if (event.action == Action.LEFT_CLICK_AIR || event.action == Action.LEFT_CLICK_BLOCK) tool.onLeftClick(context, event.clickedBlock)
-        else tool.onRightClick(context, event.clickedBlock)
+        else if (event.action != Action.PHYSICAL) tool.onRightClick(context, event.clickedBlock)
 
         cooldown.add(event.player.uniqueId)
         Bukkit.getScheduler().runTaskLater(Illustrate.get(), Consumer { cooldown.remove(event.player.uniqueId) }, 1)
