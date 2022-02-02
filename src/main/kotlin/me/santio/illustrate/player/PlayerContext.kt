@@ -18,11 +18,6 @@ class PlayerContext(player: Player) {
         return palettes.contains(palette)
     }
 
-    fun hasAccess(material: Material): Boolean {
-        for (palette in palettes) if (palette.blocks.contains(material)) return true
-        return false
-    }
-
     fun get(): Player? {
         return Bukkit.getPlayer(uuid)
     }

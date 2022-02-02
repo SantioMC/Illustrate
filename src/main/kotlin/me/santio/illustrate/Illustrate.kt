@@ -8,6 +8,7 @@ import me.santio.illustrate.player.PlayerListener
 import me.santio.illustrate.tools.Tool
 import me.santio.illustrate.tools.ToolListener
 import me.santio.illustrate.tools.impl.BrushTool
+import me.santio.illustrate.tools.impl.PickBlockTool
 import me.santio.utils.SantioUtils
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
@@ -29,7 +30,7 @@ class Illustrate : JavaPlugin() {
 
         // Register Palettes and Tools (Please teach me a way to automate this w/ reflection)
         registerPalettes(ConcretePalette, OrePalette)
-        registerTools(BrushTool)
+        registerTools(BrushTool, PickBlockTool)
 
         // Register listeners
         server.pluginManager.registerEvents(PlayerListener, this)
