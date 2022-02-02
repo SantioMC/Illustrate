@@ -5,6 +5,7 @@ import me.santio.illustrate.palettes.impl.ConcretePalette
 import me.santio.illustrate.palettes.impl.OrePalette
 import me.santio.illustrate.player.PlayerContext
 import me.santio.illustrate.player.PlayerListener
+import me.santio.illustrate.player.ProtectionListener
 import me.santio.illustrate.tools.Tool
 import me.santio.illustrate.tools.ToolListener
 import me.santio.illustrate.tools.impl.BrushTool
@@ -35,6 +36,7 @@ class Illustrate : JavaPlugin() {
         // Register listeners
         server.pluginManager.registerEvents(PlayerListener, this)
         server.pluginManager.registerEvents(ToolListener, this)
+        server.pluginManager.registerEvents(ProtectionListener, this)
 
         utils.supportReloads()
     }
