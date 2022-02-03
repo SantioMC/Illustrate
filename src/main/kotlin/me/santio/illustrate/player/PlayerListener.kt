@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
+import org.bukkit.event.player.PlayerGameModeChangeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.litote.kmongo.eq
@@ -24,6 +25,8 @@ object PlayerListener: Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     @SupportReloads
     private fun onJoin(event: PlayerJoinEvent) {
+        event.player.allowFlight = true
+
         val uuid = event.player.uniqueId.toString().replace("-", "")
         Illustrate.contexts[event.player.uniqueId] = PlayerContext(event.player)
 
@@ -40,6 +43,13 @@ object PlayerListener: Listener {
     private fun onQuit(event: PlayerQuitEvent) {
         Illustrate.contexts[event.player.uniqueId]?.save()
         Illustrate.contexts.remove(event.player.uniqueId)
+    }
+
+    @EventHandler
+    private fun onGamemodeSwitch(event: PlayerGameModeChangeEvent) {
+        Bukkit.getScheduler().runTaskLater(Illustrate.get(), Consumer {
+            event.player.allowFlight = true
+        }, 1)
     }
 
     @EventHandler

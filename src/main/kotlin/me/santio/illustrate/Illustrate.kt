@@ -62,6 +62,7 @@ class Illustrate : JavaPlugin() {
 
     override fun onDisable() {
         contexts.values.forEach(PlayerContext::save)
+        mongo.close()
     }
 
     private fun registerPalettes(vararg palettes: Palette) {
