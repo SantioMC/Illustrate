@@ -13,9 +13,7 @@ import org.bukkit.entity.Player
 import org.litote.kmongo.eq
 import org.litote.kmongo.getCollection
 import java.util.function.Consumer
-import kotlin.math.min
-import kotlin.math.pow
-import kotlin.math.round
+import kotlin.math.*
 
 class PlayerContext(player: Player) {
     private val uuid = player.uniqueId
@@ -47,6 +45,8 @@ class PlayerContext(player: Player) {
         if (data!!.xp >= getXPRequired()) {
             data!!.xp -= getXPRequired()
             data!!.level += 1
+            val newSize = ceil((data!!.level + 1) / 25f).toInt()
+            if (data!!.maxSize < newSize) data!!.maxSize = newSize
 
             get()!!.sendMessage(ChatUtils.tacc("&7You leveled up to ${HueTools.hue(data!!.level * 3)}Level ${data!!.level}&7!"))
         }
