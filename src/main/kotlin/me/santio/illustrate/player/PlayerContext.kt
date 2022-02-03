@@ -49,9 +49,9 @@ class PlayerContext(player: Player) {
             data!!.level += 1
 
             get()!!.sendMessage(ChatUtils.tacc("&7You leveled up to ${HueTools.hue(data!!.level * 3)}Level ${data!!.level}&7!"))
-            get()!!.level = data!!.level
         }
 
+        get()!!.level = data!!.level
         get()!!.exp = min(1f, (data!!.xp / getXPRequired().toFloat()))
     }
 

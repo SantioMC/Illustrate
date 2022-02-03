@@ -3,6 +3,7 @@ package me.santio.illustrate.tools.impl
 import me.santio.illustrate.Illustrate
 import me.santio.illustrate.player.PlayerContext
 import me.santio.illustrate.tools.Tool
+import me.santio.illustrate.utils.HueTools
 import me.santio.illustrate.utils.named
 import me.santio.utils.ChatUtils
 import me.santio.utils.CustomItem
@@ -66,7 +67,10 @@ object BrushTool: Tool(
             .fill(CustomItem(Material.GRAY_STAINED_GLASS_PANE).setDisplayName("&f"))
 
         for (size in 1..5) {
-            gui.setItem(size + 10, CustomItem(Material.GUNPOWDER)
+            if (context.data!!.maxSize < size) gui.setItem(size + 10, CustomItem(Material.BARRIER)
+                .setDisplayName("&3Brush Size $size")
+                .setItemLore("&1", "&cThis size is locked!", "&7Unlock this size at ${HueTools.hue((size-1) * 25 * 3)}Level ${(size-1) * 25}&7!", "&2"))
+            else gui.setItem(size + 10, CustomItem(Material.GUNPOWDER)
                 .setDisplayName("&3Brush Size $size")
                 .setItemLore("&1", "&aClick to select!", "&2")
                 .setGlowing(context.brushSize == size)
