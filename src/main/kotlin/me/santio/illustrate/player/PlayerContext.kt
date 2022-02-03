@@ -11,6 +11,8 @@ import org.bukkit.entity.Player
 import org.litote.kmongo.eq
 import org.litote.kmongo.getCollection
 import java.util.function.Consumer
+import kotlin.math.pow
+import kotlin.math.round
 
 class PlayerContext(player: Player) {
     private val uuid = player.uniqueId
@@ -27,6 +29,13 @@ class PlayerContext(player: Player) {
 
     fun get(): Player? {
         return Bukkit.getPlayer(uuid)
+    }
+
+    // Formula: (level^2)+(0.45*level)+10
+    fun getXPRequired(): Int {
+        if (data == null) return 10000000
+        val level = data!!.level.toFloat()
+        return round((level.pow(2))+(0.45*level)+10).toInt()
     }
 
     fun asyncSave() {
