@@ -9,6 +9,7 @@ import me.santio.utils.CustomItem
 import me.santio.utils.inventories.CustomInventory
 import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.api.chat.TextComponent
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
@@ -81,7 +82,21 @@ object BrushTool: Tool(
 
     override fun onLeftClick(player: PlayerContext, block: Block?) {
         if (block == null) return
-        block.type = player.currentBlock
+        val radius = when(player.brushSize) {
+            1 -> 0.1
+            2 -> 1.2
+            3 -> 1.8
+            4 -> 2.3
+            5 -> 3.0
+            else -> 0.1
+        }
+
+        val blocks = getBlocks(block.location, player.brushSize).filter { b -> b.location.distanceSquared(block.location) <= radius*radius }
+        for (b in blocks) {
+            if (b.type == player.currentBlock || b.type.isAir) continue
+            b.type = player.currentBlock
+            player.addXP(1)
+        }
     }
 
     override fun onRightClick(player: PlayerContext, block: Block?) {
@@ -105,5 +120,17 @@ object BrushTool: Tool(
         item.itemMeta = itemMeta
 
         return super.getItem(player, item)
+    }
+
+    private fun getBlocks(location: Location, radius: Int): Set<Block> {
+        val blocks: MutableSet<Block> = mutableSetOf()
+        val startX = location.blockX
+        val startZ = location.blockZ
+        for (x in startX-radius..startX+radius) {
+            for (z in startZ-radius..startZ+radius) {
+                blocks.add(Location(location.world, x.toDouble(), location.y, z.toDouble()).block)
+            }
+        }
+        return blocks
     }
 }

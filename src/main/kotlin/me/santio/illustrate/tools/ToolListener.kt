@@ -1,6 +1,7 @@
 package me.santio.illustrate.tools
 
 import me.santio.illustrate.Illustrate
+import me.santio.utils.ChatUtils
 import me.santio.utils.CustomItem
 import me.santio.utils.SupportReloads
 import org.bukkit.Bukkit
@@ -34,6 +35,11 @@ object ToolListener: Listener {
         val item = event.player.inventory.itemInMainHand
         val meta = item.itemMeta ?: return
         val tool = Illustrate.tools[Illustrate.utils.NBTUtils.get(meta, "tool")] ?: return
+
+        if (context.data == null) {
+            event.player.sendMessage(ChatUtils.tacc("&cYou are not able to use tools until your user data has loaded!"))
+            return
+        }
 
         if (event.action == Action.LEFT_CLICK_AIR || event.action == Action.LEFT_CLICK_BLOCK) tool.onLeftClick(context, event.clickedBlock)
         else if (event.action != Action.PHYSICAL) tool.onRightClick(context, event.clickedBlock)

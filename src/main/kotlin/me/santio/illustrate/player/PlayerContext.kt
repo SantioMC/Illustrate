@@ -5,12 +5,15 @@ import me.santio.illustrate.Illustrate
 import me.santio.illustrate.database.models.Account
 import me.santio.illustrate.palettes.Palette
 import me.santio.illustrate.palettes.impl.ConcretePalette
+import me.santio.illustrate.utils.HueTools
+import me.santio.utils.ChatUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.litote.kmongo.eq
 import org.litote.kmongo.getCollection
 import java.util.function.Consumer
+import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.round
 
@@ -32,10 +35,24 @@ class PlayerContext(player: Player) {
     }
 
     // Formula: (level^2)+(0.45*level)+10
-    fun getXPRequired(): Int {
+    private fun getXPRequired(): Int {
         if (data == null) return 10000000
         val level = data!!.level.toFloat()
         return round((level.pow(2))+(0.45*level)+10).toInt()
+    }
+
+    fun addXP(xp: Int) {
+        if (data == null || get() == null) return
+        data!!.xp += xp
+        if (data!!.xp >= getXPRequired()) {
+            data!!.xp -= getXPRequired()
+            data!!.level += 1
+
+            get()!!.sendMessage(ChatUtils.tacc("&7You leveled up to ${HueTools.hue(data!!.level * 3)}Level ${data!!.level}&7!"))
+            get()!!.level = data!!.level
+        }
+
+        get()!!.exp = min(1f, (data!!.xp / getXPRequired().toFloat()))
     }
 
     fun asyncSave() {
