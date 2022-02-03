@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockFromToEvent
 import org.bukkit.event.block.BlockPhysicsEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityChangeBlockEvent
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityPickupItemEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 
@@ -36,6 +37,11 @@ object ProtectionListener: Listener {
     private fun onBreak(event: EntityPickupItemEvent) {
         if (event.entity !is Player) return
         if ((event.entity as Player).gameMode != GameMode.CREATIVE) event.isCancelled = true
+    }
+
+    @EventHandler
+    private fun onDamage(event: EntityDamageEvent) {
+        if (event.entity is Player) event.isCancelled = true
     }
 
     @EventHandler

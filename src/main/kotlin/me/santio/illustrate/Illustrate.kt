@@ -16,6 +16,7 @@ import me.santio.utils.SantioUtils
 import org.bukkit.plugin.java.JavaPlugin
 import org.litote.kmongo.KMongo
 import java.util.*
+import java.util.function.Consumer
 
 class Illustrate : JavaPlugin() {
 
@@ -52,6 +53,15 @@ class Illustrate : JavaPlugin() {
         server.pluginManager.registerEvents(ProtectionListener, this)
 
         utils.supportReloads()
+
+        // Auto-save
+        server.scheduler.runTaskTimer(this, Consumer {
+            contexts.values.forEach(PlayerContext::asyncSave)
+        }, 6000, 6000)
+    }
+
+    override fun onDisable() {
+        contexts.values.forEach(PlayerContext::save)
     }
 
     private fun registerPalettes(vararg palettes: Palette) {
