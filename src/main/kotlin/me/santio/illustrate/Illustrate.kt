@@ -2,6 +2,7 @@ package me.santio.illustrate
 
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoDatabase
+import me.santio.illustrate.commands.TogglePaintCommand
 import me.santio.illustrate.palettes.Palette
 import me.santio.illustrate.palettes.impl.ConcretePalette
 import me.santio.illustrate.palettes.impl.OrePalette
@@ -25,9 +26,12 @@ class Illustrate : JavaPlugin() {
         lateinit var mongo: MongoClient
         lateinit var database: MongoDatabase
 
+        var paintingDisabled: Boolean = false
+
         val contexts: MutableMap<UUID, PlayerContext> = mutableMapOf()
         val palettes: MutableList<Palette> = mutableListOf()
         val tools: MutableMap<String, Tool> = mutableMapOf()
+        val disabledWorlds: MutableList<String> = mutableListOf()
 
         fun get(): Illustrate = getPlugin(Illustrate::class.java)
     }
@@ -51,6 +55,10 @@ class Illustrate : JavaPlugin() {
         server.pluginManager.registerEvents(PlayerListener, this)
         server.pluginManager.registerEvents(ToolListener, this)
         server.pluginManager.registerEvents(ProtectionListener, this)
+
+        // Register commands
+        server.getPluginCommand("togglepaint")!!.setExecutor(TogglePaintCommand)
+        server.getPluginCommand("togglepaint")!!.tabCompleter = TogglePaintCommand
 
         utils.supportReloads()
 

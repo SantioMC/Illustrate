@@ -86,6 +86,14 @@ object BrushTool: Tool(
 
     override fun onLeftClick(player: PlayerContext, block: Block?) {
         if (block == null) return
+        if (Illustrate.paintingDisabled) {
+            player.get()!!.sendMessage(ChatUtils.tacc("&cPainting is currently disabled!"))
+            return
+        } else if (Illustrate.disabledWorlds.contains(player.get()!!.world.name.lowercase())) {
+            player.get()!!.sendMessage(ChatUtils.tacc("&cYou are not permitted to paint in this world!"))
+            return
+        }
+
         val radius = when(player.brushSize) {
             1 -> 0.1
             2 -> 1.2

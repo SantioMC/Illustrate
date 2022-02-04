@@ -4,3 +4,8 @@ main: me.santio.illustrate.Illustrate
 api-version: 1.17
 authors: [ Santio71 ]
 description: Painting in minecraft
+commands:
+  togglepaint:
+    description: Toggle painting in a single/all world(s)
+    permission: illustrate.togglepaint
+    aliases: [togglepainting]
