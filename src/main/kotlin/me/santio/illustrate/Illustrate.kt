@@ -3,6 +3,7 @@ package me.santio.illustrate
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoDatabase
 import me.santio.illustrate.commands.LevelCommand
+import me.santio.illustrate.commands.OpenPackCommand
 import me.santio.illustrate.commands.TogglePaintCommand
 import me.santio.illustrate.palettes.Palette
 import me.santio.illustrate.palettes.impl.ConcretePalette
@@ -60,6 +61,8 @@ class Illustrate : JavaPlugin() {
         // Register commands
         server.getPluginCommand("togglepaint")!!.setExecutor(TogglePaintCommand)
         server.getPluginCommand("togglepaint")!!.tabCompleter = TogglePaintCommand
+        server.getPluginCommand("openpack")!!.setExecutor(OpenPackCommand)
+        server.getPluginCommand("openpack")!!.tabCompleter = OpenPackCommand
         server.getPluginCommand("level")!!.setExecutor(LevelCommand)
 
         utils.supportReloads()

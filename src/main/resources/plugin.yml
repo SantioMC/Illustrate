@@ -12,3 +12,7 @@ commands:
   level:
     description: Check your level and xp
     aliases: [xp]
+  openpack:
+    description: Makes a palette either available to the public or not for the current session
+    permission: illustrate.openpalette
+    aliases: [openpalette]
