@@ -26,6 +26,7 @@ object PlayerListener: Listener {
     @SupportReloads
     private fun onJoin(event: PlayerJoinEvent) {
         event.player.allowFlight = true
+        event.joinMessage = ChatUtils.tacc("&a[&2+&a] &f${event.player.name}")
 
         val uuid = event.player.uniqueId.toString().replace("-", "")
         Illustrate.contexts[event.player.uniqueId] = PlayerContext(event.player)
@@ -45,6 +46,7 @@ object PlayerListener: Listener {
     private fun onQuit(event: PlayerQuitEvent) {
         Illustrate.contexts[event.player.uniqueId]?.save()
         Illustrate.contexts.remove(event.player.uniqueId)
+        event.quitMessage = ""
     }
 
     @EventHandler
