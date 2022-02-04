@@ -33,7 +33,7 @@ class PlayerContext(player: Player) {
     }
 
     // Formula: (level^2)+(0.45*level)+10
-    private fun getXPRequired(): Int {
+    fun getXPRequired(): Int {
         if (data == null) return 10000000
         val level = data!!.level.toFloat()
         return round((level.pow(2))+(0.45*level)+10).toInt()

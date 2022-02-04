@@ -9,3 +9,6 @@ commands:
     description: Toggle painting in a single/all world(s)
     permission: illustrate.togglepaint
     aliases: [togglepainting]
+  level:
+    description: Check your level and xp
+    aliases: [xp]
