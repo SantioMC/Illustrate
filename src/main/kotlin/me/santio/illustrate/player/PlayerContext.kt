@@ -49,6 +49,7 @@ class PlayerContext(player: Player) {
             if (data!!.maxSize < newSize) data!!.maxSize = newSize
 
             get()!!.sendMessage(ChatUtils.tacc("&7You leveled up to ${HueTools.hue(data!!.level * 3)}Level ${data!!.level}&7!"))
+            get()!!.setPlayerListName("${HueTools.hue(data!!.level * 3)}${get()!!.displayName}")
         }
 
         get()!!.level = data!!.level
