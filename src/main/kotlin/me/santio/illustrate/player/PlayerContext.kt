@@ -10,6 +10,8 @@ import me.santio.utils.ChatUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.scheduler.BukkitTask
 import org.litote.kmongo.eq
 import org.litote.kmongo.getCollection
 import java.util.function.Consumer
@@ -17,11 +19,21 @@ import kotlin.math.*
 
 class PlayerContext(player: Player) {
     private val uuid = player.uniqueId
+    private val activity: BukkitTask
 
     var currentBlock: Material = Material.WHITE_CONCRETE
     var currentPalette: Palette = ConcretePalette
     var brushSize: Int = 1
     var data: Account? = null
+
+    init {
+        activity = object : BukkitRunnable() {
+            override fun run() {
+                if (get() == null || !get()!!.isOnline) this.cancel()
+                else if (data != null) data!!.xp+=20
+            }
+        }.runTaskTimer(Illustrate.get(), 1200, 1200)
+    }
 
     fun hasAccess(palette: Palette): Boolean {
         return if (data == null) false
@@ -63,6 +75,7 @@ class PlayerContext(player: Player) {
     }
 
     fun save() {
+        activity.cancel()
         val save = data ?: return
 
         val collection = Illustrate.database.getCollection<Account>()
