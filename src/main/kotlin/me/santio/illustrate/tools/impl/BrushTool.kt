@@ -137,10 +137,13 @@ object BrushTool: Tool(
     private fun getBlocks(location: Location, radius: Int): Set<Block> {
         val blocks: MutableSet<Block> = mutableSetOf()
         val startX = location.blockX
+        val startY = location.blockY
         val startZ = location.blockZ
         for (x in startX-radius..startX+radius) {
-            for (z in startZ-radius..startZ+radius) {
-                blocks.add(Location(location.world, x.toDouble(), location.y, z.toDouble()).block)
+            for (y in startY-radius..startY+radius) {
+                for (z in startZ - radius..startZ + radius) {
+                    blocks.add(Location(location.world, x.toDouble(), y.toDouble(), z.toDouble()).block)
+                }
             }
         }
         return blocks
