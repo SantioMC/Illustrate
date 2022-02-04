@@ -36,6 +36,7 @@ object PlayerListener: Listener {
             if (data == null) data = Account(uuid)
 
             Illustrate.contexts[event.player.uniqueId]?.data = data
+            event.player.sendMessage(ChatUtils.tacc("&7&oYour user data has been loaded!"))
         })
     }
 
