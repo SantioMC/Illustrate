@@ -43,7 +43,7 @@ object TogglePaintCommand: CommandExecutor, TabCompleter {
         alias: String,
         args: Array<out String>
     ): MutableList<String> {
-        if (args.isEmpty()) return mutableListOf()
+        if (args.isEmpty() || args.size > 1) return mutableListOf()
         val complete: MutableList<String> = mutableListOf("all")
         complete.addAll(Bukkit.getWorlds().map { w -> w.name })
         return complete.filter { arg -> arg.lowercase().startsWith(args[0].lowercase()) }.toMutableList()
