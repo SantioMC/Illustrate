@@ -6,6 +6,7 @@ import me.santio.illustrate.utils.HueTools
 import me.santio.utils.ChatUtils
 import me.santio.utils.SupportReloads
 import org.bukkit.Bukkit
+import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -26,6 +27,7 @@ object PlayerListener: Listener {
     @SupportReloads
     private fun onJoin(event: PlayerJoinEvent) {
         event.player.allowFlight = true
+        event.player.gameMode = GameMode.SURVIVAL
         event.joinMessage = ChatUtils.tacc("&a[&2+&a] &f${event.player.name}")
 
         val uuid = event.player.uniqueId.toString().replace("-", "")
