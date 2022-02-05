@@ -67,12 +67,13 @@ object PlayerListener: Listener {
             return
         }
 
-        val message = event.message.replace("%", "%%")
+        var message = event.message.replace("%", "%%")
         val prefix = if (event.player.isOp) "&c[A] &7" else "&7"
         val chatColor = if (event.player.isOp) "&f" else "&7"
         val level = context.data!!.level
+        if (event.player.isOp) message = ChatUtils.tacc(message)
 
-        event.format = ChatUtils.tacc("$prefix${HueTools.hue(level*3)}[$level] &7${event.player.displayName}$chatColor: $message")
+        event.format = ChatUtils.tacc("$prefix${HueTools.hue(level*3)}[$level] &7${event.player.displayName}$chatColor: ") + message
     }
 
 }
